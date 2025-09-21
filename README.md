@@ -1,4 +1,4 @@
-# VLLM Intermediate State Inspector
+# Transformer Intermediate State Inspector
 
 A powerful tool for analyzing intermediate states and token trajectories in Transformer models. Enables deep exploration of the internal workings of models and tracking the evolution of specific tokens across layers.
 
@@ -30,10 +30,10 @@ pip install -r requirements.txt
 ### Basic Usage
 
 ```python
-from main import VLLMInspector
+from main import TransformerInspector
 
 # Create inspector
-inspector = VLLMInspector()
+inspector = TransformerInspector()
 
 # Load model
 inspector.load_model("gpt2")
@@ -82,9 +82,9 @@ poc/
 ### Example 1: Basic Token Analysis
 
 ```python
-from main import VLLMInspector
+from main import TransformerInspector
 
-inspector = VLLMInspector()
+inspector = TransformerInspector()
 inspector.load_model("gpt2")
 
 # Analyze keywords in sentence
@@ -277,7 +277,7 @@ for i, text in enumerate(texts):
 
 ### Main Classes
 
-#### `VLLMInspector`
+#### `TransformerInspector`
 Main integration interface providing end-to-end analysis workflow.
 
 #### `TokenTracker`

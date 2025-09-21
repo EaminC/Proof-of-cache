@@ -1,8 +1,8 @@
-# 🎉 VLLM Intermediate State Inspector - Successfully Deployed!
+# 🎉 Transformer Intermediate State Inspector - Successfully Deployed!
 
 ## ✅ Mission Accomplished
 
-I have successfully moved the **VLLM Intermediate State Inspector** project to the `poc` folder and translated all content to English! The project has been committed and pushed to your GitHub repository.
+I have successfully moved the **Transformer Intermediate State Inspector** project to the `poc` folder and translated all content to English! The project has been committed and pushed to your GitHub repository.
 
 ## 🚀 What's Been Done
 
@@ -76,9 +76,9 @@ python3 main.py --model gpt2 --text "AI is amazing" --export-formats json csv
 
 ### **Python API**
 ```python
-from main import VLLMInspector
+from main import TransformerInspector
 
-inspector = VLLMInspector()
+inspector = TransformerInspector()
 inspector.load_model("gpt2")
 
 result = inspector.analyze_text(
@@ -107,7 +107,7 @@ Exported files: JSON.gz + NPZ
 🌍 **Language**: Fully English  
 ✅ **Status**: Ready for production use  
 
-The VLLM Intermediate State Inspector is now:
+The Transformer Intermediate State Inspector is now:
 - ✅ **Deployed** in the poc folder
 - ✅ **Translated** to English
 - ✅ **Committed** to Git

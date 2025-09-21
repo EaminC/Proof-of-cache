@@ -12,17 +12,17 @@ from pathlib import Path
 from model_loader import ModelLoader
 from token_tracker import TokenTracker
 from coordinate_system import CoordinateManager, DataExporter
-from main import VLLMInspector
+from main import TransformerInspector
 
 
 def example_1_basic_analysis():
-    """示例 1: 基本分析流程"""
+    """Example 1: Basic analysis workflow"""
     print("="*60)
-    print("示例 1: 基本的 Token 分析")
+    print("Example 1: Basic Token Analysis")
     print("="*60)
     
-    # 创建检查器
-    inspector = VLLMInspector()
+    # Create inspector
+    inspector = TransformerInspector()
     
     # 加载模型
     inspector.load_model("gpt2")
@@ -280,8 +280,8 @@ def example_6_visualization():
     print("示例 6: 数据可视化")
     print("="*60)
     
-    # 使用主检查器
-    inspector = VLLMInspector()
+    # Use main inspector
+    inspector = TransformerInspector()
     inspector.load_model("gpt2")
     
     # 分析一个有趣的句子

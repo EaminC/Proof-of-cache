@@ -1,8 +1,8 @@
-# 🎉 VLLM Intermediate State Inspector - Project Summary
+# 🎉 Transformer Intermediate State Inspector - Project Summary
 
 ## ✅ Project Completion Status
 
-I have successfully created a complete **VLLM Intermediate State Inspector** tool for you! This tool fully meets your requirements:
+I have successfully created a complete **Transformer Intermediate State Inspector** tool for you! This tool fully meets your requirements:
 
 ### 🎯 Core Feature Implementation
 

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# VLLM Intermediate State Inspector startup script
+# Transformer Intermediate State Inspector startup script
 
-echo "VLLM Intermediate State Inspector"
-echo "================================="
+echo "Transformer Intermediate State Inspector"
+echo "========================================"
 
 # Check Python environment
 if ! command -v python3 &> /dev/null; then

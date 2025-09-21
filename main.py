@@ -1,5 +1,5 @@
 """
-VLLM Intermediate State Inspector - Main Program
+Transformer Intermediate State Inspector - Main Program
 For analyzing intermediate states and token trajectories in Transformer models
 """
 
@@ -23,9 +23,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 
-class VLLMInspector:
+class TransformerInspector:
     """
-    VLLM Intermediate State Inspector main class
+    Transformer Intermediate State Inspector main class
     Integrates all functional modules and provides a unified interface
     """
     
@@ -345,19 +345,19 @@ class VLLMInspector:
 
 
 def main():
-    """主函数"""
-    parser = argparse.ArgumentParser(description="VLLM 中间状态检查器")
-    parser.add_argument("--model", type=str, default="gpt2", help="模型名称")
-    parser.add_argument("--text", type=str, default="Hello world! How are you today?", help="输入文本")
-    parser.add_argument("--target-tokens", type=str, nargs='+', help="目标 token 列表")
-    parser.add_argument("--output-dir", type=str, default="./outputs", help="输出目录")
-    parser.add_argument("--export-formats", type=str, nargs='+', default=["json", "npz"], help="导出格式")
-    parser.add_argument("--no-visualize", action="store_true", help="不生成可视化图表")
+    """Main function"""
+    parser = argparse.ArgumentParser(description="Transformer Intermediate State Inspector")
+    parser.add_argument("--model", type=str, default="gpt2", help="Model name")
+    parser.add_argument("--text", type=str, default="Hello world! How are you today?", help="Input text")
+    parser.add_argument("--target-tokens", type=str, nargs='+', help="Target token list")
+    parser.add_argument("--output-dir", type=str, default="./outputs", help="Output directory")
+    parser.add_argument("--export-formats", type=str, nargs='+', default=["json", "npz"], help="Export formats")
+    parser.add_argument("--no-visualize", action="store_true", help="Do not generate visualization charts")
     
     args = parser.parse_args()
     
-    # 创建检查器
-    inspector = VLLMInspector()
+    # Create inspector
+    inspector = TransformerInspector()
     
     try:
         # 加载模型
