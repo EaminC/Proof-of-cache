@@ -1,0 +1,56 @@
+{
+  "model": "gpt2",
+  "generation_time": "2025-09-27 21:52:04",
+  "total_samples": 3,
+  "files": [
+    {
+      "file": "By_did_you_tired_that_can_cat_a_art_may.json",
+      "input_text": "By did you tired that can cat a art may",
+      "input_tokens": [
+        "By",
+        "Ġdid",
+        "Ġyou",
+        "Ġtired",
+        "Ġthat",
+        "Ġcan",
+        "Ġcat",
+        "Ġa",
+        "Ġart",
+        "Ġmay"
+      ],
+      "predicted_token": " be",
+      "sequence_length": 10
+    },
+    {
+      "file": "The_these_but_has_hate_she.json",
+      "input_text": "The these but has hate she",
+      "input_tokens": [
+        "The",
+        "Ġthese",
+        "Ġbut",
+        "Ġhas",
+        "Ġhate",
+        "Ġshe"
+      ],
+      "predicted_token": " has",
+      "sequence_length": 6
+    },
+    {
+      "file": "House_fast_shall_she_us_book_love_her_happy.json",
+      "input_text": "House fast shall she us book love her happy",
+      "input_tokens": [
+        "House",
+        "Ġfast",
+        "Ġshall",
+        "Ġshe",
+        "Ġus",
+        "Ġbook",
+        "Ġlove",
+        "Ġher",
+        "Ġhappy"
+      ],
+      "predicted_token": ",",
+      "sequence_length": 9
+    }
+  ]
+}

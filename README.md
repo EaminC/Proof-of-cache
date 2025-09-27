@@ -1,325 +1,219 @@
-# Transformer Intermediate State Inspector
+# GPT-2 KV Cache Extractor
 
-A powerful tool for analyzing intermediate states and token trajectories in Transformer models. Enables deep exploration of the internal workings of models and tracking the evolution of specific tokens across layers.
+A comprehensive tool for extracting and analyzing Key-Value cache from GPT-2 model for each layer, attention head, and token position.
 
-## 🌟 Main Features
+## Features
 
-### 🎯 Core Features
-- **Token Tracking**: Track specific input/output tokens' intermediate states across model layers
-- **Coordinate Positioning**: Precisely locate intermediate variables by position (layer, position, head, feature dimension, etc.)
-- **Multi-format Export**: Support for JSON, NPZ, CSV, HDF5, and other data export formats
-- **Visualization Analysis**: Automatically generate trajectory plots, attention heatmaps, and other visualizations
-- **Model Compatibility**: Support for GPT-2, BERT, RoBERTa, and other Transformer models
+- 🚀 Deploy GPT-2 model using Transformers library
+- 📊 Extract complete KV cache from 12 layers × 12 attention heads
+- 🎯 Predict next token with top-k candidates
+- 💾 Save results in structured JSON format
+- 🔍 Command-line query tool for analyzing generated data
+- 📈 Dataset generation tools for batch processing
+- 🛠️ Comprehensive visualization and analysis tools
 
-### 📊 Analysis Capabilities
-- **Hidden State Trajectories**: Analyze token hidden state changes across layers
-- **Attention Patterns**: Capture and analyze the evolution of self-attention weights
-- **Token Comparison**: Compare internal representations and similarities between different tokens
-- **Layer Analysis**: Statistical analysis of activation patterns across layers
-- **Attention Flow**: Track attention flow direction and intensity changes
+## Project Structure
 
-## 🚀 Quick Start
+```
+poc/
+├── src/                    # Source code
+│   └── gpt2_kvcache.py    # Main KV cache extractor
+├── tools/                  # Command-line tools
+│   ├── kvcache_query.py   # Query tool for analyzing JSON data
+│   └── dataset_generator.py # Dataset generation tool
+├── examples/               # Usage examples
+│   └── basic_usage.py     # Basic usage examples
+├── data/                   # Data directory
+│   ├── sample_prompts.txt  # Sample input prompts
+│   └── *.json             # Generated KV cache files
+├── docs/                   # Documentation
+│   └── usage_guide.md     # Detailed usage guide
+├── requirements.txt        # Python dependencies
+└── README.md              # This file
+```
 
-### Install Dependencies
+## Installation
 
+1. Install dependencies:
 ```bash
-cd poc
 pip install -r requirements.txt
 ```
+
+## Quick Start
 
 ### Basic Usage
 
 ```python
-from main import TransformerInspector
+from src.gpt2_kvcache import GPT2KVCacheExtractor
 
-# Create inspector
-inspector = TransformerInspector()
+# Create extractor
+extractor = GPT2KVCacheExtractor(model_name="gpt2")
 
-# Load model
-inspector.load_model("gpt2")
+# Extract KV cache
+result = extractor.extract_kv_cache("The quick brown fox jumps over the lazy dog")
 
-# Analyze text
-result = inspector.analyze_text(
-    text="Hello world! How are you today?",
-    target_tokens=["Hello", "world"],
-    export_formats=["json", "csv"]
-)
-
-# Generate visualizations
-inspector.visualize_results(result)
+# Save to JSON
+extractor.save_to_json(result, "output.json")
 ```
 
 ### Command Line Usage
 
 ```bash
-# Basic analysis
-python main.py --model gpt2 --text "Hello world!"
+# Generate single dataset
+python3 src/gpt2_kvcache.py
 
-# Specify target tokens
-python main.py --model gpt2 --text "The cat sat on the mat" --target-tokens cat sat
+# Generate dataset from text file
+python3 tools/dataset_generator.py --text-file data/sample_prompts.txt --output-dir data/datasets/
 
-# Custom output
-python main.py --model gpt2 --text "AI is amazing" --output-dir ./my_analysis --export-formats json npz csv
+# Query KV cache data
+python3 tools/kvcache_query.py data/kv_cache_output.json --coordinate 0 0 0
 ```
 
-## 📁 Project Structure
+## Command Line Tools
 
-```
-poc/
-├── main.py                    # Main program and integration interface
-├── model_loader.py           # Model loading and initialization
-├── hook_system.py            # Hook system (capture intermediate activations)
-├── token_tracker.py          # Token tracker
-├── coordinate_system.py      # Coordinate system and data export
-├── examples.py               # Usage examples
-├── config.json               # Configuration file
-├── requirements.txt          # Dependencies list
-└── README.md                 # Documentation
-```
+### KV Cache Query Tool
 
-## 💡 Usage Examples
+Analyze and query generated JSON data:
 
-### Example 1: Basic Token Analysis
+```bash
+# Show dataset information
+python3 tools/kvcache_query.py data/kv_cache_output.json --info
 
-```python
-from main import TransformerInspector
+# Get specific coordinate
+python3 tools/kvcache_query.py data/kv_cache_output.json --coordinate 0 0 0
 
-inspector = TransformerInspector()
-inspector.load_model("gpt2")
+# Search by token text
+python3 tools/kvcache_query.py data/kv_cache_output.json --token-search "fox"
 
-# Analyze keywords in sentence
-result = inspector.analyze_text(
-    text="The quick brown fox jumps over the lazy dog.",
-    target_tokens=["quick", "fox", "jumps"]
-)
+# Layer summary
+python3 tools/kvcache_query.py data/kv_cache_output.json --layer-summary 0
 
-# View analysis report
-report = result['analysis_report']
-print(f"Tracked {len(report['summary']['tracked_positions'])} tokens")
+# Search by norm range and export to CSV
+python3 tools/kvcache_query.py data/kv_cache_output.json --search-norm 0.5 1.0 key --export-csv results.csv
 ```
 
-### Example 2: Attention Analysis
+### Dataset Generator
 
-```python
-from token_tracker import TokenTracker
-from model_loader import ModelLoader
+Generate multiple datasets:
 
-loader = ModelLoader()
-loader.load_model("gpt2")
+```bash
+# From text file
+python3 tools/dataset_generator.py --text-file data/sample_prompts.txt --output-dir data/datasets/
 
-tracker = TokenTracker(loader.model, loader.tokenizer)
+# From prompts
+python3 tools/dataset_generator.py --prompts "Hello world" "Machine learning" --output-dir data/datasets/
 
-# Analyze attention patterns
-text = "I love natural language processing."
-inputs = loader.tokenize_text(text)
-result = tracker.trace_tokens(inputs, trace_all=True)
-
-# Get attention flow for specific position
-attention_flow = tracker.get_attention_flow(2)  # position of "natural"
+# Random dataset
+python3 tools/dataset_generator.py --random 100 --output-dir data/random/
 ```
 
-### Example 3: Token Comparison
+## Output Format
 
-```python
-# Compare internal representations of synonyms
-text = "The cat and the kitten are playing together."
-inputs = loader.tokenize_text(text)
-result = tracker.trace_tokens(inputs, trace_all=True)
-
-# Compare similarity between "cat" and "kitten"
-comparison = tracker.compare_tokens(1, 4, metric='cosine')
-print("Cosine similarity across layers:", comparison['similarities'])
-```
-
-### Example 4: Custom Coordinate System
-
-```python
-from coordinate_system import CoordinateManager
-
-manager = CoordinateManager("gpt2")
-
-# Create precise coordinates
-coord = manager.create_coordinate(
-    batch_idx=0,
-    sequence_idx=5,      # 5th token
-    layer_idx=3,         # 3rd layer
-    head_idx=2,          # 2nd attention head
-    module_type="attention"
-)
-
-# Add intermediate variable
-value = torch.randn(768)  # hidden state vector
-manager.add_variable(coord, value, "Layer 3 attention output")
-
-# Export data
-exported = manager.export_all("my_analysis", formats=["json", "hdf5"])
-```
-
-## 🔧 Configuration
-
-Edit `config.json` to customize configuration:
+The generated JSON files contain:
 
 ```json
 {
-    "model_name": "gpt2",
-    "device": "auto",
-    "max_length": 128,
-    "output_dir": "./outputs",
-    "export_formats": ["json", "npz", "csv"],
-    "capture_layers": {
-        "attention": true,
-        "mlp": true,
-        "embeddings": true,
-        "layer_norm": true,
-        "final_logits": true
-    },
-    "layer_indices": "all",
-    "attention_heads": "all",
-    "position_range": "all"
+  "model": "gpt2",
+  "input_text": "Input text",
+  "input_tokens": ["token1", "token2", ...],
+  "predicted_next_token": {
+    "token": "predicted_token",
+    "token_id": 123,
+    "top_k_candidates": [
+      {"token": "candidate1", "probability": 0.25},
+      {"token": "candidate2", "probability": 0.15}
+    ]
+  },
+  "kv_cache": {
+    "layer_0": {
+      "head_0": {
+        "tokens": [
+          {
+            "token_idx": 0,
+            "key": [64-dimensional vector],
+            "value": [64-dimensional vector]
+          }
+        ]
+      }
+    }
+  },
+  "metadata": {
+    "n_layers": 12,
+    "n_heads": 12,
+    "d_head": 64,
+    "sequence_length": 9
+  }
 }
 ```
 
-## 📊 Coordinate System
+## Coordinate System
 
-Our coordinate system provides precise intermediate variable positioning:
+KV Cache uses a 3D coordinate system:
+- **Layer**: 0-11, 12 Transformer blocks
+- **Head**: 0-11, 12 attention heads per layer  
+- **Token**: 0 to sequence_length-1, corresponding to each input token
 
+For example, coordinate `[5, 3, 2]` means:
+- Layer 6 (0-indexed)
+- Attention head 4
+- Token 3
+
+## Examples
+
+### Example 1: Basic Extraction
 ```python
-# Coordinate format
-CoordinateSystem(
-    batch_idx=0,          # Batch dimension
-    sequence_idx=5,       # Sequence position
-    layer_idx=3,          # Layer index
-    head_idx=2,           # Attention head index
-    feature_idx=100,      # Feature dimension index
-    module_type="attention",  # Module type
-    module_name="transformer.h.3.attn"  # Specific module name
-)
+from src.gpt2_kvcache import GPT2KVCacheExtractor
 
-# Coordinate string representation
-"B0_S5_L3_H2_F100_(attention)"
+extractor = GPT2KVCacheExtractor()
+result = extractor.extract_kv_cache("Hello world")
+print(f"Predicted next token: {result['predicted_next_token']['token']}")
 ```
 
-## 🎨 Visualization
-
-Automatically generate various visualization charts:
-
-1. **Token Trajectory Plots**: Show token hidden state changes across layers
-2. **Attention Heatmaps**: Display attention weight distributions
-3. **Layer Analysis Charts**: Statistics of variable distribution across layers
-4. **Similarity Plots**: Compare similarity evolution between different tokens
-
-## 📤 Data Export
-
-Support for multiple data export formats:
-
-- **JSON**: Human-readable, includes complete metadata
-- **NPZ**: NumPy native format, efficient storage
-- **CSV**: Tabular format, suitable for Excel/pandas analysis
-- **HDF5**: Scientific computing standard, supports big data
-- **Pickle**: Python native serialization
-
-## 🔬 Advanced Features
-
-### Hook System
-
-Direct access to model internals:
-
+### Example 2: Coordinate Query
 ```python
-from hook_system import IntermediateInspector
-
-inspector = IntermediateInspector(model)
-inspector.register_hooks(layer_patterns=["transformer.h.0", "transformer.h.1"])
-
-# Capture forward pass
-result = inspector.capture_forward_pass(inputs)
+# Get KV cache for specific coordinate
+kv_data = extractor.get_coordinate_kv(result, layer=0, head=0, token=0)
+print(f"Key vector: {kv_data['key'][:5]}")
+print(f"Value vector: {kv_data['value'][:5]}")
 ```
 
-### Batch Analysis
+### Example 3: Batch Processing
+```bash
+# Generate multiple datasets
+python3 tools/dataset_generator.py --random 10 --output-dir data/batch/
 
-```python
-texts = [
-    "The cat sat on the mat.",
-    "A dog ran in the park.",
-    "Birds fly in the sky."
-]
-
-for i, text in enumerate(texts):
-    result = inspector.analyze_text(text, export_formats=["json"])
-    print(f"Analyzed text {i+1}/3")
+# Analyze all generated files
+for file in data/batch/*.json; do
+    python3 tools/kvcache_query.py "$file" --info
+done
 ```
 
-## 🐛 Troubleshooting
+## Model Variants
 
-### Common Issues
-
-1. **Out of Memory**
-   ```python
-   # Reduce sequence length
-   inspector.loader.config["max_length"] = 64
-   
-   # Only analyze specific layers
-   inspector.register_hooks(layer_patterns=["transformer.h.0", "transformer.h.1"])
-   ```
-
-2. **Model Loading Failed**
-   ```python
-   # Specify device
-   inspector.loader.config["device"] = "cpu"  # or "cuda"
-   ```
-
-3. **Export Files Too Large**
-   ```python
-   # Use compressed formats
-   exported = manager.export_all("analysis", formats=["npz"], compress=True)
-   ```
-
-## 📚 API Documentation
-
-### Main Classes
-
-#### `TransformerInspector`
-Main integration interface providing end-to-end analysis workflow.
-
-#### `TokenTracker`
-Token tracker specifically for tracking state changes of specific tokens.
-
-#### `CoordinateManager`
-Coordinate manager providing precise variable positioning and management.
-
-#### `IntermediateInspector`
-Hook system for capturing internal model activations.
-
-### Core Methods
+You can use different GPT-2 model sizes:
+- `gpt2`: 124M parameters (default)
+- `gpt2-medium`: 355M parameters
+- `gpt2-large`: 774M parameters
+- `gpt2-xl`: 1.5B parameters
 
 ```python
-# Load model
-inspector.load_model(model_name, model_type="causal_lm")
-
-# Analyze text
-result = inspector.analyze_text(text, target_tokens=None, export_formats=["json"])
-
-# Track tokens
-tracking_result = tracker.trace_tokens(inputs, trace_all=False)
-
-# Get trajectory
-trajectory = tracker.get_token_trajectory(position, layer_range=None)
-
-# Compare tokens
-comparison = tracker.compare_tokens(pos1, pos2, metric='cosine')
+# Use larger model
+extractor = GPT2KVCacheExtractor(model_name="gpt2-medium")
 ```
 
-## 🤝 Contributing
+## Performance Notes
 
-Issues and Pull Requests are welcome!
+- GPT-2 model parameters: ~124M
+- KV cache size per token: ~0.6MB (float32)
+- Supports both CPU and GPU (auto-detected)
+- First run downloads model (~500MB)
 
-## 📄 License
+## Documentation
 
-MIT License
+- [Usage Guide](docs/usage_guide.md) - Detailed usage instructions
+- [Examples](examples/) - Code examples
+- [Tools](tools/) - Command-line tools
 
-## 🙏 Acknowledgments
+## License
 
-Built on Transformers library and PyTorch.
-
----
-
-**Start exploring the internal world of Transformer models!** 🚀
+MIT
